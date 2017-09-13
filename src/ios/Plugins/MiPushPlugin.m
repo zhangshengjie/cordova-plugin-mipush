@@ -9,10 +9,11 @@
 
 static BOOL hasInit = FALSE;
 static NSMutableArray *callbackJsQueue = nil;
+static id <CDVCommandDelegate> commandDelegate;
 
 - (void)pluginInitialize {
     [super pluginInitialize];
-    SharedMiPushPlugin = self;
+    commandDelegate = [self commandDelegate];
 }
 
 // 注册小米推送
@@ -150,9 +151,9 @@ static NSMutableArray *callbackJsQueue = nil;
     }
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('mipush.%@',%@)", type, json];
 
-    if (SharedMiPushPlugin && hasInit) {
+    if (commandDelegate && hasInit) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SharedMiPushPlugin.commandDelegate evalJs:js];
+            [commandDelegate evalJs:js];
         });
     } else {
         if(callbackJsQueue == nil) {

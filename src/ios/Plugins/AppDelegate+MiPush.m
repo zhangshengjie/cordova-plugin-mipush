@@ -54,6 +54,7 @@
 
     // 注册APNS失败.
     // 自行处理.
+    [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:err];
 }
 
 #pragma mark Local And Push Notification

@@ -5,6 +5,11 @@
 
 支持Android、IOS的Cordova小米推送插件
 
+## 插件说明
+
+- Android SDK 3.4.5 - 2017.07.24更新
+- IOS SDK 2.2.6 - 2017.06.27更新
+
 ## 集成步骤
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：

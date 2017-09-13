@@ -34,5 +34,3 @@
 
 + (void)callbackWithType:(NSString *)type data:(NSDictionary *)data;
 @end
-
-MiPushPlugin *SharedMiPushPlugin;

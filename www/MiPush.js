@@ -1,13 +1,6 @@
 /*MiPushPlugin插件对象*/
 var MiPushPlugin = function (){};
 
-/*消息到达客户端*/
-MiPushPlugin.prototype.receiveRegisterResult = {};
-/*消息到达客户端*/
-MiPushPlugin.prototype.notificationMessageArrived = {};
-/*消息被点击*/
-MiPushPlugin.prototype.notificationMessageClicked = {};
-
 /*判断是否为Android设备*/
 MiPushPlugin.prototype.isAndroidDevice = function(){
     return device.platform == 'Android';
@@ -18,8 +11,7 @@ MiPushPlugin.prototype.error_callback = function(msg){
 };
 /*调用原生方法*/
 MiPushPlugin.prototype.call_native = function(name, args, callback){
-    var ret = cordova.exec(callback, this.error_callback, 'MiPushPlugin', name, args);
-    return ret;
+    return cordova.exec(callback, this.error_callback, 'MiPushPlugin', name, args);
 };
 
 /*弹出土司*/
