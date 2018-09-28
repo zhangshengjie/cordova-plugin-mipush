@@ -61,6 +61,14 @@ MiPushPlugin.prototype.unSetTopic = function(topic){
     var data = [topic];
     this.call_native('unSetTopic',data,null);
 };
+/*得到所有别名*/
+MiPushPlugin.prototype.getAllAlias = function(cb){
+    this.call_native('getAllAlias',[],cb);
+};
+/*得到所有订阅*/
+MiPushPlugin.prototype.getAllTopic = function(cb){
+    this.call_native('getAllTopic',[],cb);
+};
 
 if (!window.plugins) {
   window.plugins = {};

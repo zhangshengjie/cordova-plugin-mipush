@@ -111,6 +111,25 @@ static id <CDVCommandDelegate> commandDelegate;
     }];
 }
 
+- (void)getAllAlias:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSArray *array = [MiPushSDK getAllAlias];
+        if (!array) {
+            array = @[];
+        }
+        [self handleResultWithValue:array command:command];
+    }];
+}
+- (void)getAllTopic:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSArray *array = [MiPushSDK getAllTopic];
+        if (!array) {
+            array = @[];
+        }
+        [self handleResultWithValue:array command:command];
+    }];
+}
+
 // 接受到消息
 + (void)onNotificationMessageArrivedCallBack:(NSDictionary *)data {
     [self callbackWithType: @"notificationMessageArrived" data:data];
@@ -189,6 +208,8 @@ static id <CDVCommandDelegate> commandDelegate;
 
     if ([value isKindOfClass:[NSObject class]]) {
         result = [CDVPluginResult resultWithStatus:status messageAsString:value];//NSObject 类型都可以
+    } else if ([value isKindOfClass:[NSArray class]]) {
+        result = [CDVPluginResult resultWithStatus:status messageAsArray:value];//NSArray 类型都可以
     } else {
         NSLog(@"Cordova callback block returned unrecognized type: %@", NSStringFromClass([value class]));
         result = nil;

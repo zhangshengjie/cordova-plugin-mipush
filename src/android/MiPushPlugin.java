@@ -50,7 +50,9 @@ public class MiPushPlugin extends CordovaPlugin {
                     "setUserAccount",
                     "unSetUserAccount",
                     "setTopic",
-                    "unSetTopic"
+                    "unSetTopic",
+                    "getAllAlias",
+                    "getAllTopic"
             );
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
@@ -67,10 +69,11 @@ public class MiPushPlugin extends CordovaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray data,
                            final CallbackContext callbackContext) throws JSONException {
-        Log.e(TAG, "-------------action------------------" + action);
         if (!methodList.contains(action)) {
+            Log.e(TAG, "-------------unknown action------------------" + action);
             return false;
         }
+        Log.i(TAG, "-------------action------------------" + action);
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -79,7 +82,7 @@ public class MiPushPlugin extends CordovaPlugin {
                             JSONArray.class, CallbackContext.class);
                     method.invoke(MiPushPlugin.this, data, callbackContext);
                 } catch (Exception e) {
-                    Log.e(TAG, e.toString());
+                    Log.e(TAG, e.getMessage(), e);
                 }
             }
         });
@@ -95,9 +98,6 @@ public class MiPushPlugin extends CordovaPlugin {
 
     /**
      * 注册小米推送
-     *
-     * @param data
-     * @param callbackContext
      */
     public void init(JSONArray data, CallbackContext callbackContext) {
         if (shouldInit(activity)) {
@@ -109,22 +109,21 @@ public class MiPushPlugin extends CordovaPlugin {
                 String APP_ID = appInfo.metaData.getString("MiPushAppId");
                 APP_KEY = APP_KEY.split(MI_PUSH)[0];
                 APP_ID = APP_ID.split(MI_PUSH)[0];
-                Log.e(TAG, "-------APP_KEY-------" + APP_KEY + "------APP_ID----" + APP_ID);
+                Log.i(TAG, "-------APP_KEY-------" + APP_KEY + "------APP_ID----" + APP_ID);
                 MiPushClient.registerPush(activity, APP_ID, APP_KEY);
-                Log.e(TAG, "-------------init------------------");
+                Log.i(TAG, "-------------init------------------");
                 hasInit = true;
                 callbackContext.success();
             } catch (Exception e) {
-                e.printStackTrace();
-                callbackContext.error("init:error---" + e.toString());
+                Log.d(TAG, "init:error", e);
+                callbackContext.error("init:error---" + e.getMessage());
             }
 
         }
     }
 
     /**
-     * @param activity
-     * @return
+     * 是否需要初始化
      */
     private boolean shouldInit(Activity activity) {
         ActivityManager am = ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE));
@@ -141,12 +140,9 @@ public class MiPushPlugin extends CordovaPlugin {
 
     /**
      * 弹出土司
-     *
-     * @param data
-     * @param callbackContext
      */
     public void showToast(final JSONArray data, final CallbackContext callbackContext) {
-        Log.e(TAG, "------showToast-------");
+        Log.i(TAG, "------showToast-------");
         try {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -155,12 +151,13 @@ public class MiPushPlugin extends CordovaPlugin {
                         Toast.makeText(activity, data.get(0).toString(), Toast.LENGTH_SHORT).show();
                         callbackContext.success();
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "showToast:error", e);
+                        callbackContext.error("showToast:error---" + e.toString());
                     }
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "showToast:error", e);
             callbackContext.error("showToast:error---" + e.toString());
         }
     }
@@ -168,115 +165,125 @@ public class MiPushPlugin extends CordovaPlugin {
 
     /**
      * 设置别名
-     *
-     * @param data
-     * @param callbackContext
      */
     public void setAlias(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------setAlias-----------");
+        Log.i(TAG, "---------setAlias-----------");
         try {
             String alias = data.get(0).toString();
-            Log.e(TAG, "-----------alias-------------" + alias);
+            Log.i(TAG, "-----------alias-------------" + alias);
             MiPushClient.setAlias(activity, alias, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
-            callbackContext.error("setAlias:error--" + e.toString());
+            Log.e(TAG, "setAlias:error", e);
+            callbackContext.error("setAlias:error---" + e.toString());
         }
     }
 
     /**
      * 取消设置别名
-     *
-     * @param data
-     * @param callbackContext
      */
     public void unSetAlias(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------unSetAlias-----------");
+        Log.i(TAG, "---------unSetAlias-----------");
         try {
             String alias = data.get(0).toString();
-            Log.e(TAG, "-----------alias-------------" + alias);
+            Log.i(TAG, "-----------alias-------------" + alias);
             MiPushClient.unsetAlias(activity, alias, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "unSetAlias:error", e);
             callbackContext.error("unSetAlias:error---" + e.toString());
         }
     }
 
     /**
      * 设置userAccount
-     *
-     * @param data
-     * @param callbackContext
      */
     public void setUserAccount(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------setUserAccount-----------");
+        Log.i(TAG, "---------setUserAccount-----------");
         try {
             String userAccount = data.get(0).toString();
-            Log.e(TAG, "-----------userAccount-------------" + userAccount);
+            Log.i(TAG, "-----------userAccount-------------" + userAccount);
             MiPushClient.setUserAccount(activity, userAccount, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "setUserAccount:error", e);
             callbackContext.error("setUserAccount:error---" + e.toString());
         }
     }
 
     /**
      * 取消设置userAccount
-     *
-     * @param data
-     * @param callbackContext
      */
     public void unSetUserAccount(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------unSetUserAccount-----------");
+        Log.i(TAG, "---------unSetUserAccount-----------");
         try {
             String userAccount = data.get(0).toString();
-            Log.e(TAG, "-----------userAccount-------------" + userAccount);
+            Log.i(TAG, "-----------userAccount-------------" + userAccount);
             MiPushClient.unsetUserAccount(activity, userAccount, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "unSetUserAccount:error", e);
             callbackContext.error("unSetUserAccount:error---" + e.toString());
         }
     }
 
     /**
      * 订阅topic
-     *
-     * @param data
-     * @param callbackContext
      */
     public void setTopic(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------setTopic-----------");
+        Log.i(TAG, "---------setTopic-----------");
         try {
             String topic = data.get(0).toString();
-            Log.e(TAG, "-----------topic-------------" + topic);
+            Log.i(TAG, "-----------topic-------------" + topic);
             MiPushClient.subscribe(activity, topic, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "setTopic:error", e);
             callbackContext.error("setTopic:error---" + e.toString());
         }
     }
 
     /**
      * 取消订阅topic
-     *
-     * @param data
-     * @param callbackContext
      */
     public void unSetTopic(JSONArray data, CallbackContext callbackContext) {
-        Log.e(TAG, "---------unSetTopic-----------");
+        Log.i(TAG, "---------unSetTopic-----------");
         try {
             String topic = data.get(0).toString();
-            Log.e(TAG, "-----------topic-------------" + topic);
+            Log.i(TAG, "-----------topic-------------" + topic);
             MiPushClient.unsubscribe(activity, topic, null);
             callbackContext.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "unSetTopic:error", e);
             callbackContext.error("unSetTopic:error---" + e.toString());
+        }
+    }
+
+    /**
+     * 得到所有别名
+     */
+    public void getAllAlias(JSONArray data, CallbackContext callbackContext) {
+        Log.i(TAG, "---------getAllAlias-----------");
+        try {
+            List<String> allAlias = MiPushClient.getAllAlias(activity);
+            callbackContext.success(new JSONArray(allAlias));
+        } catch (Exception e) {
+            Log.e(TAG, "getAllAlias:error", e);
+            callbackContext.error("getAllAlias:error---" + e.toString());
+        }
+    }
+
+    /**
+     * 得到所有订阅
+     */
+    public void getAllTopic(JSONArray data, CallbackContext callbackContext) {
+        Log.i(TAG, "---------getAllTopic-----------");
+        try {
+            List<String> allAlias = MiPushClient.getAllTopic(activity);
+            callbackContext.success(new JSONArray(allAlias));
+        } catch (Exception e) {
+            Log.e(TAG, "getAllTopic:error", e);
+            callbackContext.error("getAllTopic:error---" + e.toString());
         }
     }
 
@@ -344,7 +351,7 @@ public class MiPushPlugin extends CordovaPlugin {
         } else {
             callbackJsQueue.add(js);
         }
-    }
+        }
 
     private static void handleCallbackJsQueue() {
         if(!hasInit || callbackJsQueue.isEmpty()) {

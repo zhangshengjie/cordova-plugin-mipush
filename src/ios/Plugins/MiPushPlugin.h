@@ -25,6 +25,11 @@
 -(void)setTopic:(CDVInvokedUrlCommand*)command;
 -(void)unSetTopic:(CDVInvokedUrlCommand*)command;
 
+// 得到所有别名
+- (void)getAllAlias:(CDVInvokedUrlCommand *)command;
+// 得到所有订阅
+- (void)getAllTopic:(CDVInvokedUrlCommand *)command;
+
 // 接受到消息
 +(void)onNotificationMessageArrivedCallBack:(NSDictionary*)data;
 // 用户点击
