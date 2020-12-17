@@ -5,20 +5,17 @@
   "cordova": {
     "id": "cordova-plugin-mipush",
     "platforms": [
-      "android",
-      "ios"
-    ]
+      "android"]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wenin819/cordova-plugin-mipush.git"
+    "url": "git+https://github.com/zhangshengjie/cordova-plugin-mipush.git"
   },
   "keywords": [
     "cordova",
     "phonegap",
     "mipush",
-    "cordova-android",
-    "cordova-ios"
+    "cordova-android"
   ],
   "engines": [
     {
@@ -29,7 +26,7 @@
   "author": "https://github.com/wenin819",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/wenin819/cordova-plugin-mipush/issues"
+    "url": "https://github.com/zhangshengjie/cordova-plugin-mipush/issues"
   },
-  "homepage": "https://github.com/wenin819/cordova-plugin-mipush#readme"
+  "homepage": "https://github.com/zhangshengjie/cordova-plugin-mipush#readme"
 }
