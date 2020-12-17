@@ -14,11 +14,11 @@
 
 - 通过 Cordova Plugins 安装，要求 Cordova CLI 5.0+：
 		
-		cordova plugin add cordova-plugin-mipush --variable MI_PUSH_APP_KEY=your_mipush_appkey --variable MI_PUSH_APP_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_KEY=your_mipush_appkey
+		[fork前] cordova plugin add cordova-plugin-mipush --variable MI_PUSH_APP_KEY=your_mipush_appkey --variable MI_PUSH_APP_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_KEY=your_mipush_appkey
 
 - 通过Url安装:
 	
-		cordova plugin add https://github.com/wenin819/cordova-plugin-mipush.git --variable MI_PUSH_APP_KEY=your_mipush_appkey --variable MI_PUSH_APP_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_ID=your_mipush_appid --variable MI_PUSH_APP_IOS_KEY=your_mipush_appkey
+		cordova plugin add https://github.com/zhangshengjie/cordova-plugin-mipush.git --variable MI_PUSH_APP_KEY=your_mipush_appkey --variable MI_PUSH_APP_ID=your_mipush_appid
 
 - 或者下载本地安装
 
